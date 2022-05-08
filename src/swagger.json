@@ -1,0 +1,250 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Solid Principles Documentation",
+    "description": "This is an api with SOLID principles",
+    "version": "1.0.0",
+    "contact": {
+      "email": "lucascdoliveira.dev@gmail.com"
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "create a user",
+        "description": " this path create a user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Lucas Carvalho de Oliveira",
+                  "email": "lucas@gmail.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "created"
+          },
+          "400": {
+            "description": "already exists user with this email"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": " list users",
+        "description": "list all users",
+        "parameters":[
+          {
+              "name":"user_id",
+              "in":"header",
+              "description":"user id",
+              "required":true,
+              "schema":{
+                  "type":"string",
+                  "format":"uuid"
+              }
+          }
+      ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "uuid"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "admin": {
+                        "type": "boolean"
+                      },
+                      "created_at": {
+                        "type": "date"
+                      },
+                      "updated_at": {
+                        "type": "date"
+                      }
+                    },
+                    "example": {
+                      "id":"fdsafdsaf7dsa7fds4afdsaf7fd7sa7",
+                      "name": "lucas",
+                      "email": "lucas@gmail.com",
+                      "admin": false,
+                      "created_at": "04/08/2000",
+                      "updated_at": "22/05/2023"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type":"object",
+                  "properties":{
+                    "error": "string"
+                  },
+                  "example":{
+                    "error": "message" 
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/admin":{
+      "patch":{
+        "tags":[
+          "Users"
+        ],
+        "summary":"turn user admin",
+        "description":"invert admin value",
+        "parameters":[
+          {
+              "name":"user_id",
+              "in":"path",
+              "description":"user id",
+              "required":true,
+              "schema":{
+                  "type":"string",
+                  "format":"uuid"
+              }
+          }
+      ],
+      "responses":{
+        "200":{
+          "content":{
+            "application/json":{
+              "schema":{
+                "type":"object",
+                "properties":{
+                  "name":{
+                    "type":"string"
+                  },
+                  "email":{
+                    "type":"string"
+                  },
+                  "created_at":{
+                    "type":"date"
+                  },
+                  "updated_at":{
+                    "type":"date"
+                  },
+                  "admin":{
+                    "type":"boolean"
+                  }
+                },
+                "example":{
+                  "id":"gfdsh4fdsgfda4fgdasg4ggd5sa",
+                  "name":"Lucas Carvalho de Oliveira",
+                  "email":"lucas@gmail.com",
+                  "admin":true,
+                  "created_at":"04/08/2000",
+                  "updated_at":"22/05/2023"
+                }
+              }
+            }
+          }
+        },
+        "404":{
+          "description":"user does not exists"
+        }
+      }
+        
+      }
+    },
+    "/users/{user_id}":{
+      "get":{
+        "tags":[
+          "Users"
+        ],
+        "summary":"user profile",
+        "description":"get a user profile by id",
+        "parameters":[
+          {
+            "name":"user_id",
+            "description": "user id",
+            "in":"path",
+            "schema":{
+              "type":"string",
+              "format":"uuid"
+            },
+            "required":true
+          }
+        ],
+        "responses":{
+          "200":{
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type":"object",
+                  "properties":{
+                    "name":{
+                      "type":"string"
+                    },
+                    "email":{
+                      "type":"string"
+                    },
+                    "created_at":{
+                      "type":"date"
+                    },
+                    "updated_at":{
+                      "type":"date"
+                    },
+                    "admin":{
+                      "type":"boolean"
+                    }
+                  },
+                  "example":{
+                    "id":"gfdsh4fdsgfda4fgdasg4ggd5sa",
+                    "name":"Lucas Carvalho de Oliveira",
+                    "email":"lucas@gmail.com",
+                    "admin":true,
+                    "created_at":"04/08/2000",
+                    "updated_at":"22/05/2023"
+                  }
+                }
+              }
+            }
+          },
+          "400":{
+            "description":"user does not exists"
+          }
+        }
+      }
+    }
+  }
+}
